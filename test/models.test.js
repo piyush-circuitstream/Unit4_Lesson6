@@ -33,6 +33,51 @@ describe('Tests for create book', function () {
         const book = await Book.create(bookData); // new Book({...}); book.save()
 
         expect(book).to.have.property('title').that.equals('Title1');
+        expect(book).to.have.property('isbn').that.equals('123456');
+        expect(book).to.have.property('publisher').that.equals('XYZ');
+        expect(book).to.have.property('inventory').that.equals(5);
+        expect(book).to.have.property('unitsSold').that.equals(1);
+        expect(book).to.have.property('tags').that.eql(['comic', 'bestseller']);
+    });
+
+    it('should not create a book without required fields', async () => {
+        const bookData = {
+            isbn: '1234567890',
+            publisher: 'Test Publisher',
+        };
+
+        try {
+            await Book.create(bookData);
+        } catch (error) {
+            expect(error.errors).to.have.property('title');
+        }
+    });
+
+    it('should set default values for inventory and unitsSold', async () => {
+        const bookData = {
+            title: 'Default Book',
+            isbn: '0987654321',
+            publisher: 'Default Publisher',
+        };
+
+        const book = await Book.create(bookData);
+
+        expect(book.inventory).to.equal(0);
+        expect(book.unitsSold).to.equal(0);
+    });
+
+    it('should retrieve a book by ISBN', async () => {
+        const bookData = {
+            title: 'Find Me',
+            isbn: '1122334455',
+            publisher: 'Find Publisher',
+        };
+
+        const book = await Book.create(bookData);
+
+        const foundBook = await Book.findOne({ isbn: '1122334455' });
+        expect(foundBook).to.not.be.null;
+        expect(foundBook).to.have.property('isbn').that.equals('1122334455');
     });
 });
 
