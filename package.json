@@ -1,0 +1,19 @@
+{
+  "name": "lesson-6",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "chai": "^5.1.2",
+    "chai-as-promised": "^8.0.1",
+    "mocha": "^11.0.1",
+    "mongoose": "^8.9.5"
+  }
+}
